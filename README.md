@@ -3,9 +3,9 @@
 ## Jumpstart Repos
 * [ThreadPool](https://github.com/SuperFastPython/PythonThreadPoolJumpStart)
 * [Threading](https://github.com/SuperFastPython/PythonThreadingJumpStart/tree/main)
-* [ThreadPoolExecutor]()
+* [ThreadPoolExecutor](https://github.com/SuperFastPython/PythonThreadPoolExecutorJumpStart)
+* [MultiprocessingPool](https://github.com/SuperFastPython/PythonMultiprocessingPoolJumpStart)
 * [Multiprocessing]()
-* [MultiprocessingPool]()
 * [ProcessPoolExecutor]()
 * [Asyncio]()
 
