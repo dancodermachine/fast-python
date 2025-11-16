@@ -5,7 +5,7 @@
 * [Threading](https://github.com/SuperFastPython/PythonThreadingJumpStart/tree/main)
 * [ThreadPoolExecutor](https://github.com/SuperFastPython/PythonThreadPoolExecutorJumpStart)
 * [MultiprocessingPool](https://github.com/SuperFastPython/PythonMultiprocessingPoolJumpStart)
-* [Multiprocessing]()
+* [Multiprocessing](https://github.com/SuperFastPython/PythonMultiprocessingJumpStart)
 * [ProcessPoolExecutor]()
 * [Asyncio]()
 

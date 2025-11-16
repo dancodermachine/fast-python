@@ -18,29 +18,29 @@ from multiprocessing import (
     Pool
 ) 
 
-# custom function to be executed in a child process
-def task(shared_barrier, ident):
-    # generate a unique value between 0 and 10
-    value = random() * 10
-    # block for a moment
-    sleep(value)
-    # report result
-    print(f"Process {ident} got: {value}", flush=True)
-    # wait for all other processes to complete
-    shared_barrier.wait()
-    
-# protect the entry point
+# custom function to be executed in a child process 
+def task(number, shared_semaphore):
+    # acquire the shared semaphore
+    with shared_semaphore:
+        # generate a number between 0 and 1
+        value = random()
+        # block for a fraction of a second
+        sleep(value)
+        # report the generated value
+        print(f"{number} got {value}")
+        
+# protect the entry point 
 if __name__ == "__main__":
-    # create a barrier for (5 workers + 1 main process)
-    barrier = Barrier(5 + 1)
-    # create the worker processes
-    workers = [Process(target=task, args=(barrier, i)) for i in range(5)]
-    # start the worker processes
-    for worker in workers:
-        # start process
-        worker.start()
-    # wait for all worker processes to finish
-    print("Main process waiting on all results...")
-    barrier.wait()
-    # report once all processes are done
-    print("All processes have their results")
+    # create the manager
+    with Manager() as manager:
+        # create the shared semaphore
+        managed_sem = manager.Semaphore(2)
+        # create a shared pool
+        with Pool() as pool:
+            # prepare arguments for task
+            args = [(i, managed_sem) for i in range(10)]
+            # issue many tasks to the process pool
+            pool.starmap(task, args)
+
+        
+    
