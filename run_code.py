@@ -1,46 +1,24 @@
-from time import sleep
 from random import random
-from multiprocessing import (
-    Process,
-    current_process,
-    parent_process,
-    active_children,
-    Lock,
-    Semaphore,
-    Event,
-    Condition,
-    Barrier,
-    set_start_method,
-    Value,
-    Pipe,
-    Queue,
-    Manager,
-    Pool
-) 
+from time import sleep
+from multiprocessing import Process
+from concurrent.futures import ProcessPoolExecutor, TimeoutError, wait, as_completed, FIRST_COMPLETED, FIRST_EXCEPTION 
 
-# custom function to be executed in a child process 
-def task(number, shared_semaphore):
-    # acquire the shared semaphore
-    with shared_semaphore:
-        # generate a number between 0 and 1
-        value = random()
-        # block for a fraction of a second
-        sleep(value)
-        # report the generated value
-        print(f"{number} got {value}")
-        
-# protect the entry point 
+# custom function to be executed in a worker process
+def task(number):
+    # report a message
+    print(f"Worker task {number}...", flush=True)
+    # block for a moment
+    sleep(1)
+    
+# initialize a worker in a process pool
+def init():
+    # report a message
+    print("Initializing worker ...", flush=True)
+    
+# protect the entry point
 if __name__ == "__main__":
-    # create the manager
-    with Manager() as manager:
-        # create the shared semaphore
-        managed_sem = manager.Semaphore(2)
-        # create a shared pool
-        with Pool() as pool:
-            # prepare arguments for task
-            args = [(i, managed_sem) for i in range(10)]
-            # issue many tasks to the process pool
-            pool.starmap(task, args)
-
-        
+    # create and configure the process pool
+    with ProcessPoolExecutor(2, initializer=init) as exe:
+        # issue tasks to the process pool
+        _ = exe.map(task, range(4))
     
